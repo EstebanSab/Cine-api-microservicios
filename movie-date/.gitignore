@@ -31,3 +31,19 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+*.properties
+*.yml
+*.yaml
+.settings/
+.loadpath
+.recommenders
