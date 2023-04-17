@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.date.movie.cinema.dto.MovieDateTheaterDto;
 import com.date.movie.cinema.model.MovieDateTheater;
+import com.date.movie.cinema.model.MovieInfo;
 import com.date.movie.cinema.repository.MovieDateTheaterRepository;
 
 
@@ -40,16 +41,30 @@ public class MovieDateTheaterService {
     LocalTime timeMovie = this.intArrayToLocalTime(movieDateTheaterDto.getTimeAsArray());
 
     movieDateTheater.setMovieDate(dateMovie);
-    movieDateTheater.setMovieTime(timeMovie);
+    movieDateTheater.setMovieTimeStart(timeMovie);
     
+    MovieDateTheater movieDateIsOcuppied = this.movieDateLocationRepository.theaterIsOcupied(dateMovie,timeMovie);
+    if(movieDateIsOcuppied != null){
+      throw new RuntimeException("la sala esta ocupada a esa hora");
+    }
+
     Boolean movieExist = this.restTemplate.getForObject("http://localhost:8081/v1/movie/info/exist/"+movieDateTheaterDto.getIdMovie(), Boolean.class);
-
-
+    
     if(!movieExist){
-      throw new RuntimeException("No existe es pelicula");
+      throw new RuntimeException("No existe esa pelicula");
     }
 
 
+    MovieInfo movieInfo=this.restTemplate.getForObject("http://localhost:8081/v1/movie/info/"+movieDateTheaterDto.getIdMovie(), MovieInfo.class);
+    int hour=movieInfo.getMovieDuration().getHour();
+    int minute =movieInfo.getMovieDuration().getMinute();
+    
+    movieDateTheater.setMovieTimeFinish(LocalTime.of(timeMovie.getHour()+hour, timeMovie.getMinute()+minute, 0, 0));
+    
+
+    
+    
+    
     movieDateTheater.setMovieId(movieDateTheaterDto.getIdMovie());
     movieDateTheater.setTheaterId(movieDateTheaterDto.getIdTheater());
 
@@ -67,7 +82,7 @@ public class MovieDateTheaterService {
     }
     if(movieDateTheaterDto.getTimeAsArray().length == 2){
       LocalTime timeMovie = this.intArrayToLocalTime(movieDateTheaterDto.getTimeAsArray());
-      movieDateTheaterToModifier.setMovieTime(timeMovie);
+      movieDateTheaterToModifier.setMovieTimeStart(timeMovie);
     }
     if(movieDateTheaterDto.getIdMovie() != null && movieDateTheaterDto.getIdMovie() > 0){
       movieDateTheaterToModifier.setMovieId(movieDateTheaterDto.getIdMovie());

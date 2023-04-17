@@ -5,11 +5,19 @@ import java.time.LocalTime;
 
 
 import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "MovieDateTheater")
 @Table(name = "movie_date_theater",
 uniqueConstraints ={
-  @UniqueConstraint(name="date_location_constraint",columnNames ={"movie_date","movie_time","theater_id"})
+  @UniqueConstraint(name="date_location_constraint",columnNames ={"movie_date","movie_time_start","theater_id"})
 })
 public class MovieDateTheater {
     
@@ -24,53 +32,16 @@ public class MovieDateTheater {
     @Column(name = "movie_date", updatable = true, nullable = false, unique = false)
     private LocalDate movieDate;
 
-    @Column(name = "movie_time", updatable = true, nullable = false, unique = false)
-    private LocalTime movieTime;
+    @Column(name = "movie_time_start", updatable = true, nullable = false, unique = false)
+    private LocalTime movieTimeStart;
+
+    @Column(name = "movie_time_finish", updatable = true, nullable = false, unique = false)
+    private LocalTime movieTimeFinish;
 
     @Column(name = "theater_id", updatable = true, nullable = false , unique = false)
     private Long theaterId;
 
 
-
-    public Long getId() {
-      return id;
-    }
-
-    public Long getMovieId() {
-      return movieId;
-    }
-
-    public Long getTheaterId() {
-      return theaterId;
-    }
-
-    public LocalDate getMovieDate() {
-      return movieDate;
-    }
-
-    public LocalTime getMovieTime() {
-      return movieTime;
-    }
-
-    public void setId(Long id) {
-      this.id = id;
-    }
-
-    public void setMovieId(Long movieId) {
-      this.movieId = movieId;
-    }
-
-    public void setTheaterId(Long theaterId) {
-      this.theaterId = theaterId;
-    }
-
-    public void setMovieDate(LocalDate movieDate) {
-      this.movieDate = movieDate;
-    }
-    
-    public void setMovieTime(LocalTime movieTime) {
-      this.movieTime = movieTime;
-    }
 
     
 }
