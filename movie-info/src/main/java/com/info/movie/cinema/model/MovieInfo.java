@@ -35,5 +35,5 @@ public class MovieInfo {
   private LocalTime movieDuration;
 
   @Column(name = "movie_date_release",nullable = true,updatable = true, unique = false)
-  private LocalDate releaseMovie;
+  private LocalDate movieRelease;
 }
