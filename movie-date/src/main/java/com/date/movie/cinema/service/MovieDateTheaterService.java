@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class MovieDateTheaterService {
   @Autowired
   private MovieDateTheaterRepository movieDateLocationRepository;
 
+  @Autowired 
+  private RestTemplate restTemplate;
 
   public MovieDateTheater getMovieDateTheaterById(Long id){
     return  this.movieDateLocationRepository.findById(id).orElseThrow(()-> new RuntimeException("not found ------"));
@@ -39,6 +42,14 @@ public class MovieDateTheaterService {
     movieDateTheater.setMovieDate(dateMovie);
     movieDateTheater.setMovieTime(timeMovie);
     
+    Boolean movieExist = this.restTemplate.getForObject("http://localhost:8081/v1/movie/info/exist/"+movieDateTheaterDto.getIdMovie(), Boolean.class);
+
+
+    if(!movieExist){
+      throw new RuntimeException("No existe es pelicula");
+    }
+
+
     movieDateTheater.setMovieId(movieDateTheaterDto.getIdMovie());
     movieDateTheater.setTheaterId(movieDateTheaterDto.getIdTheater());
 

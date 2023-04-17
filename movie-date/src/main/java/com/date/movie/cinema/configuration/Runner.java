@@ -1,4 +1,4 @@
-package com.date.movie.cinema.config;
+package com.date.movie.cinema.configuration;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
