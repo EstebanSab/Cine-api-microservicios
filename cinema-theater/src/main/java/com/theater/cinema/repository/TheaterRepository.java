@@ -1,8 +1,8 @@
-package com.date.movie.cinema.repository;
+package com.theater.cinema.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.date.movie.cinema.model.Theater;
+import com.theater.cinema.model.Theater;
 
 public interface TheaterRepository extends JpaRepository<Theater,Long>{
   

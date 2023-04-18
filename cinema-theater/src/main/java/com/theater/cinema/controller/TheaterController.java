@@ -1,12 +1,12 @@
-package com.date.movie.cinema.controller;
+package com.theater.cinema.controller;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.date.movie.cinema.model.Theater;
-import com.date.movie.cinema.service.TheaterService;
+import com.theater.cinema.model.Theater;
+import com.theater.cinema.service.TheaterService;
 
 @RestController
 @RequestMapping(path = "/location")
@@ -28,6 +28,6 @@ public class TheaterController {
 
   @PostMapping
   public Theater addNewLocation(@RequestBody Theater newTheater){
-    return this.theaterService.addNewTheater(newTheater);
+    return this.theaterService.createNewTheater(newTheater);
   }
 }

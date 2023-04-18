@@ -1,4 +1,4 @@
-package com.date.movie.cinema.service;
+package com.theater.cinema.service;
 
 
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.date.movie.cinema.model.Theater;
-import com.date.movie.cinema.repository.TheaterRepository;
+import com.theater.cinema.model.Theater;
+import com.theater.cinema.repository.TheaterRepository;
 
 @Service
 public class TheaterService {
@@ -20,7 +20,7 @@ public class TheaterService {
     return this.TheaterRepository.findAll();
   }
 
-  public Theater addNewTheater(Theater newTheater){
+  public Theater createNewTheater(Theater newTheater){
       return this.TheaterRepository.save(newTheater);
   }
 
