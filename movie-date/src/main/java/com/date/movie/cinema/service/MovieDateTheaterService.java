@@ -12,7 +12,7 @@ import com.date.movie.cinema.mapper.MovieDateTheaterMapper;
 import com.date.movie.cinema.model.MovieDateTheater;
 import com.date.movie.cinema.model.MovieInfo;
 import com.date.movie.cinema.repository.MovieDateTheaterRepository;
-
+import com.date.movie.cinema.exception.*;
 
 @Service
 public class MovieDateTheaterService {
@@ -39,11 +39,11 @@ public class MovieDateTheaterService {
     Boolean theaterExist = this.movieInfoRestService.theaterExists(movieDateTheaterDto.getIdTheater());
     
     if(!movieExist){
-      throw new RuntimeException("No existe esa pelicula");
+      throw new ObjectNotFoundException("Does not exist any movie with that id");
     }
 
     if(!theaterExist){
-      throw new RuntimeException("No existe esa sala");
+      throw new RuntimeException("Does not exist any theater with that id");
     }
     
     MovieInfo movieInfo = this.movieInfoRestService.getMovieInfoByMovieId(movieDateTheaterDto.getIdMovie());
@@ -60,7 +60,7 @@ public class MovieDateTheaterService {
     MovieDateTheater movieDateIsOcuppied = this.movieDateLocationRepository.theaterIsOcupied(theaterId,dateMovie,timeMovie,timeMovieFinish);
     
     if(movieDateIsOcuppied != null){
-      throw new RuntimeException("la sala esta ocupada a esa hora");
+      throw new DateTimeTheaterException("This teather is occupied in this Time");
     }
   }
   
