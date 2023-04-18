@@ -26,10 +26,10 @@ public class MovieDateTheaterController {
     return this.movieDateTheaterService.addNewMovieDateTheater(newMDTdto);
   }
 
-  @PutMapping()
-  public MovieDateTheater updateMovieDateTheater(@RequestBody MovieDateTheaterDto MDTdto){
-    return this.movieDateTheaterService.updateMovieDateTheater(MDTdto);
-  }
+  //@PutMapping()
+  //public MovieDateTheater updateMovieDateTheater(@RequestBody MovieDateTheaterDto MDTdto){
+  //  return this.movieDateTheaterService.updateMovieDateTheater(MDTdto);
+  //}
 
   @DeleteMapping("/{id}")
   public void deleteMovieDateTheater(@PathVariable("id") Long idMDT){

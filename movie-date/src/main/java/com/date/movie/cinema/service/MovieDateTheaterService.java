@@ -4,12 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.date.movie.cinema.dto.MovieDateTheaterDto;
+import com.date.movie.cinema.mapper.MovieDateTheaterMapper;
 import com.date.movie.cinema.model.MovieDateTheater;
 import com.date.movie.cinema.model.MovieInfo;
 import com.date.movie.cinema.repository.MovieDateTheaterRepository;
@@ -22,7 +21,8 @@ public class MovieDateTheaterService {
   private MovieDateTheaterRepository movieDateLocationRepository;
 
   @Autowired 
-  private RestTemplate restTemplate;
+  private MovieInfoRestService movieInfoRestService;
+
 
   public MovieDateTheater getMovieDateTheaterById(Long id){
     return  this.movieDateLocationRepository.findById(id).orElseThrow(()-> new RuntimeException("not found ------"));
@@ -32,48 +32,39 @@ public class MovieDateTheaterService {
     return  this.movieDateLocationRepository.findAll();
   }
 
-  @Transactional
+
   public MovieDateTheater addNewMovieDateTheater(MovieDateTheaterDto movieDateTheaterDto){
-    
-    MovieDateTheater movieDateTheater = new MovieDateTheater();
-    
-    LocalDate dateMovie = this.intArrayToLocalDate(movieDateTheaterDto.getDateAsArray());
-    LocalTime timeMovie = this.intArrayToLocalTime(movieDateTheaterDto.getTimeAsArray());
 
-    movieDateTheater.setMovieDate(dateMovie);
-    movieDateTheater.setMovieTimeStart(timeMovie);
-    
-    MovieDateTheater movieDateIsOcuppied = this.movieDateLocationRepository.theaterIsOcupied(dateMovie,timeMovie);
-    if(movieDateIsOcuppied != null){
-      throw new RuntimeException("la sala esta ocupada a esa hora");
-    }
-
-    Boolean movieExist = this.restTemplate.getForObject("http://localhost:8081/v1/movie/info/exist/"+movieDateTheaterDto.getIdMovie(), Boolean.class);
+    Boolean movieExist =this.movieInfoRestService.movieExists(movieDateTheaterDto.getIdMovie());
+    Boolean theaterExist = this.movieInfoRestService.theaterExists(movieDateTheaterDto.getIdTheater());
     
     if(!movieExist){
       throw new RuntimeException("No existe esa pelicula");
     }
 
+    if(!theaterExist){
+      throw new RuntimeException("No existe esa sala");
+    }
+    
+    MovieInfo movieInfo = this.movieInfoRestService.getMovieInfoByMovieId(movieDateTheaterDto.getIdMovie());
+    MovieDateTheater movieDateTheater = MovieDateTheaterMapper.mdtDtoToMovieDateTheater(movieDateTheaterDto, movieInfo);
 
-    MovieInfo movieInfo=this.restTemplate.getForObject("http://localhost:8081/v1/movie/info/"+movieDateTheaterDto.getIdMovie(), MovieInfo.class);
-    int hour=movieInfo.getMovieDuration().getHour();
-    int minute =movieInfo.getMovieDuration().getMinute();
+    this.theaterInTimeAndDateIsOcuppied(movieDateTheater.getTheaterId(),movieDateTheater.getMovieDate(),movieDateTheater.getMovieTimeStart(),movieDateTheater.getMovieTimeFinish());
     
-    movieDateTheater.setMovieTimeFinish(LocalTime.of(timeMovie.getHour()+hour, timeMovie.getMinute()+minute, 0, 0));
-    
-
-    
-    
-    
-    movieDateTheater.setMovieId(movieDateTheaterDto.getIdMovie());
-    movieDateTheater.setTheaterId(movieDateTheaterDto.getIdTheater());
-
     return  this.movieDateLocationRepository.save(movieDateTheater);
   }
 
 
+
+  public void theaterInTimeAndDateIsOcuppied(Long theaterId,LocalDate dateMovie,LocalTime timeMovie,LocalTime timeMovieFinish){
+    MovieDateTheater movieDateIsOcuppied = this.movieDateLocationRepository.theaterIsOcupied(theaterId,dateMovie,timeMovie,timeMovieFinish);
+    
+    if(movieDateIsOcuppied != null){
+      throw new RuntimeException("la sala esta ocupada a esa hora");
+    }
+  }
   
-  public MovieDateTheater updateMovieDateTheater(MovieDateTheaterDto movieDateTheaterDto){
+  /*public MovieDateTheater updateMovieDateTheater(MovieDateTheaterDto movieDateTheaterDto){
     MovieDateTheater movieDateTheaterToModifier = this.getMovieDateTheaterById(movieDateTheaterDto.getId());
 
     if(movieDateTheaterDto.getDateAsArray().length == 3){
@@ -93,28 +84,13 @@ public class MovieDateTheaterService {
     }
 
     return this.movieDateLocationRepository.save(movieDateTheaterToModifier);
-  }
+  }*/
 
   public void deleteMovieDateTheaterById(Long idMDT) {
    if(this.movieDateLocationRepository.existsById(idMDT)){
     this.movieDateLocationRepository.deleteById(idMDT);
    }
   }
-
-  public LocalDate intArrayToLocalDate(Integer[] date){
-    if(date.length == 3){
-      return LocalDate.of(date[0],date[1],date[2]);
-    }
-    return LocalDate.of(0,0,0);
-  }
-
-  public LocalTime intArrayToLocalTime(Integer[] time){
-    if(time.length == 2){
-      return LocalTime.of(time[0],time[1], 0, 0);
-    }
-    return LocalTime.of(0,0, 0, 0);
-  }
-
 
 
  
