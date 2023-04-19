@@ -1,14 +1,15 @@
 package com.theater.cinema.service;
 
 
-import java.util.List;
-
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.theater.cinema.dto.TheaterDto;
 import com.theater.cinema.exception.ObjectNotFoundException;
+import com.theater.cinema.mapper.TheaterMapper;
 import com.theater.cinema.model.Theater;
 import com.theater.cinema.repository.TheaterRepository;
 
@@ -21,9 +22,16 @@ public class TheaterService {
   @Autowired
   private CinemaService cinemaService;
 
-  public List<Theater> getAllTheater(){
-    return this.TheaterRepository.findAll();
-  }
+  public Set<TheaterDto> getAllTheatersDto(){
+    Set<Theater> allTheaters =  this.TheaterRepository.findAll().stream().collect(Collectors.toSet());
+  
+    //Set<String> set = new HashSet<>(list);
+    //set.addAll(list);
+    //set = list.stream().collect(Collectors.toSet());
+    return TheaterMapper.manyTheaterToTheaterDto(allTheaters);
+ }
+  
+  
 
   public TheaterDto createNewTheater(TheaterDto newTheaterDto){
     Theater newTheaterToCreate =new Theater();
@@ -39,13 +47,10 @@ public class TheaterService {
   }
 
   public TheaterDto getTheaterDtoById(Long idTheater){
+    
       Theater miTheater = this.getTheaterById(idTheater);
-      TheaterDto theaterDto = new TheaterDto();
-      theaterDto.setCinemaId(miTheater.getCinema().getIdCinema());
-      theaterDto.setTheaterId(miTheater.getTheaterId());
-      theaterDto.setTheaterNumber(miTheater.getTheaterNumber());
+      return TheaterMapper.theaterToTheaterDto(miTheater);
 
-      return theaterDto;
   }
 
 }

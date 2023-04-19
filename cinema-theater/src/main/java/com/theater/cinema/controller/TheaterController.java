@@ -1,6 +1,7 @@
 package com.theater.cinema.controller;
 
-import java.util.List;
+
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.theater.cinema.dto.TheaterDto;
-import com.theater.cinema.model.Theater;
 import com.theater.cinema.service.TheaterService;
 
 @RestController
@@ -25,10 +25,12 @@ public class TheaterController {
     .body(this.theaterService.getTheaterDtoById(idTheater));
   }
 
-  @GetMapping
-  public List<Theater> getAllLocations(){
-    return this.theaterService.getAllTheater();
+  @GetMapping("/all")
+  public ResponseEntity<Set<TheaterDto>> getAllLocations(){
+    return ResponseEntity.ok()
+    .body(this.theaterService.getAllTheatersDto());
   }
+
 
   @PostMapping
   public ResponseEntity<TheaterDto> addNewLocation(@RequestBody TheaterDto newTheater){
