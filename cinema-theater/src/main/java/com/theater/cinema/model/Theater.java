@@ -20,10 +20,13 @@ public class Theater {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(
-    name = "id",updatable = false,nullable = false,unique = true
-  )
-  private Long id;
+    name = "theater_id",updatable = false,nullable = false,unique = true)
+  private Long theaterId;
 
+
+  @Column(
+  name = "theater_number",updatable = false,nullable = false,unique = false)
+  private Integer theaterNumber;
  
     //cinema have many theaters
     //Theater is in only one cinema

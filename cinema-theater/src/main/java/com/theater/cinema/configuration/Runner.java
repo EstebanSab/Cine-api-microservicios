@@ -20,9 +20,8 @@ public class Runner implements CommandLineRunner {
   
   @Override
   public void run(String... args) throws Exception {
-    Cinema cinema = this.cinemaService.createNewCinema();
-
-    Theater theater = new Theater();
+   /*  Cinema cinema = this.cinemaService.createNewCinema();
+   Theater theater = new Theater();
     theater.setCinema(cinema);
 
     System.out.println(this.theaterService.createNewTheater(theater));
@@ -36,7 +35,7 @@ public class Runner implements CommandLineRunner {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-
+*/
   }
   
 }
