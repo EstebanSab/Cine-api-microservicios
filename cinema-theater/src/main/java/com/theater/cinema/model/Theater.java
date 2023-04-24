@@ -43,4 +43,10 @@ public class Theater {
     )
     private Cinema cinema;
   
+
+  @Column(name = "seat_row",unique = false, nullable = false ,updatable = false)
+  private Integer seatRow;
+
+  @Column(name = "seat_column",unique = false, nullable = false ,updatable = false)
+  private Integer seatColumn;
 }
