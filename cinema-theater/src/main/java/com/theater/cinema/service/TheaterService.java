@@ -37,7 +37,9 @@ public class TheaterService {
     Theater newTheaterToCreate =new Theater();
     newTheaterToCreate.setTheaterNumber(newTheaterDto.getTheaterNumber());
     newTheaterToCreate.setCinema(this.cinemaService.getCinemaById(newTheaterDto.getCinemaId()));
-    
+    newTheaterToCreate.setSeatRow(newTheaterDto.getSeatRow());
+    newTheaterDto.setSeatColumn(newTheaterDto.getSeatColumn());
+
     newTheaterToCreate = this.TheaterRepository.save(newTheaterToCreate);
     return this.getTheaterDtoById(newTheaterToCreate.getTheaterId());
   }

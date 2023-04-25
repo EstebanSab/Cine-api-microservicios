@@ -12,7 +12,8 @@ public class TheaterMapper {
     theaterDtoResponse.setCinemaId(theater.getCinema().getIdCinema());
     theaterDtoResponse.setTheaterId(theater.getTheaterId());
     theaterDtoResponse.setTheaterNumber(theater.getTheaterNumber());
-
+    theaterDtoResponse.setSeatColumn(theater.getSeatColumn());
+    theaterDtoResponse.setSeatRow(theater.getSeatRow());
     return theaterDtoResponse;
   }
 
