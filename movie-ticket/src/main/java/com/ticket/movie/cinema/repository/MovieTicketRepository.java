@@ -1,9 +1,9 @@
-package com.info.movie.cinema.repository;
+package com.ticket.movie.cinema.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.info.movie.cinema.model.MovieInfo;
+import com.ticket.movie.cinema.model.MovieTicket;
 
-public interface MovieInfoRepository extends JpaRepository<MovieInfo,Long> {
+public interface MovieTicketRepository extends JpaRepository<MovieTicket,Long> {
   
 }

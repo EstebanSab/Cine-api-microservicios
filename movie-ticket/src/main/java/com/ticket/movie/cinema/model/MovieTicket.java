@@ -1,7 +1,6 @@
-package com.info.movie.cinema.model;
+package com.ticket.movie.cinema.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 
 import javax.persistence.*;
 
@@ -14,26 +13,25 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "MovieInfo")
-@Table(name = "movie_info",
+@Entity(name = "MovieTicket")
+@Table(name = "movie_ticket",
 uniqueConstraints ={
-  @UniqueConstraint(name="movie_id_constraint",columnNames ="movie_id")}
+  @UniqueConstraint(name="movie_ticket_id_constraint",columnNames ="movie_ticket_id"),
+  @UniqueConstraint(name="seat_location_constraint",columnNames ={"seat_row","seat_column","movie_date_theater_id"})}
   )
-public class MovieInfo {
+public class MovieTicket {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "movie_id",nullable = false,updatable = false, unique = true)
-  private Long movieId;
+  @Column(name = "movie_ticket_id",nullable = false,updatable = false, unique = true)
+  private Long movieTicketId;
 
-  @Column(name = "movie_name",nullable = false,updatable = false, unique = true)
-  private String movieName;
+  @Column(name = "movie_date_theater_id",nullable = false,updatable = false, unique = false)
+  private Long movieDateTheaterId;
 
-  @Column(name = "movie_description",nullable = true,updatable = true, unique = false)
-  private String movieDescription;
+  @Column(name = "seat_row",nullable = false,updatable = false, unique = false)
+  private Integer seatRow;
 
-  @Column(name = "movie_duration",nullable = true,updatable = true, unique = false)
-  private LocalTime movieDuration;
+  @Column(name = "seat_column",nullable = false,updatable = false, unique = false)
+  private Integer seatColumn;
 
-  @Column(name = "movie_date_release",nullable = true,updatable = true, unique = false)
-  private LocalDate movieRelease;
 }

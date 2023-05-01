@@ -1,4 +1,4 @@
-package com.info.movie.cinema.service;
+package com.ticket.movie.cinema.service;
 
 
 import java.util.List;
@@ -6,44 +6,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.info.movie.cinema.dto.MovieInfoDto;
-import com.info.movie.cinema.mapper.MovieInfoMapper;
-import com.info.movie.cinema.model.MovieInfo;
-import com.info.movie.cinema.repository.MovieInfoRepository;
+import com.ticket.movie.cinema.dto.MovieDateTheaterDto;
+import com.ticket.movie.cinema.dto.MovieTicketDto;
+import com.ticket.movie.cinema.model.MovieTicket;
+import com.ticket.movie.cinema.repository.MovieTicketRepository;
+
+
 
 @Service
-public class MovieInfoService {
+public class MovieTicketService {
   
   @Autowired
-  private MovieInfoRepository movieInfoRepository;
+  private MovieTicketRepository movieTicketRepository;
 
+  @Autowired
+  private MovieDateTheaterRestService movieDateTheaterRestService;
 
-  public MovieInfo getMovieById(Long movieId){
-    return this.movieInfoRepository.findById(movieId).get();
-  }
+  public MovieTicketDto getMovieTicketDtoResponse(MovieTicket movieTicket){
+    MovieDateTheaterDto movieDateTheaterDto = this.movieDateTheaterRestService.getMovieDateTheaterById(movieTicket.getMovieDateTheaterId());
+    return null;
 
-  public List<MovieInfo> getAllMovies(){
-    return this.movieInfoRepository.findAll();
-  }
-
-  public Boolean existMovieById(Long movieId){
-    return this.movieInfoRepository.existsById(movieId);
-  }
-
-  public MovieInfo createNewMovie(MovieInfoDto movieInfoDto){
-   MovieInfo movieInfo = MovieInfoMapper.movieInfoDtoToMovieInfo(movieInfoDto);
-    
-    return this.movieInfoRepository.save(movieInfo);
-  }
-
-  public MovieInfo updateMovie(MovieInfoDto movieInfoDto){
-    MovieInfo movieInfo = MovieInfoMapper.movieInfoDtoToMovieInfo(movieInfoDto);
-    movieInfo.setMovieId(movieInfoDto.getMovieId());
-    return this.movieInfoRepository.save(movieInfo);
-  }
-
-  public void deleteMovie(Long movieId){
-    this.movieInfoRepository.deleteById(movieId);
   }
 
  

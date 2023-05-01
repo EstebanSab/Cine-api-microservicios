@@ -1,4 +1,4 @@
-package com.info.movie.cinema.dto;
+package com.ticket.movie.cinema.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieInfoDto {
-  private Long movieId;
+public class MovieTicketDto {
+  private Long movieTicketId;
   private String movieName;
-  private String movieDescription;
-  private String movieDuration;
-  private String movieRelease;
+  private String cinema;
+  private Integer theater;
+  private Integer seatRow;
+  private Integer seatColumn;
+  private String date;
+  private String time;
+
 }

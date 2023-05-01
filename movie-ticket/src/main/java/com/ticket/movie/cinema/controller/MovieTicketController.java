@@ -1,52 +1,35 @@
-package com.info.movie.cinema.controller;
+package com.ticket.movie.cinema.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.info.movie.cinema.dto.MovieInfoDto;
-import com.info.movie.cinema.model.MovieInfo;
-import com.info.movie.cinema.service.MovieInfoService;
+import com.ticket.movie.cinema.dto.MovieTicketDto;
+import com.ticket.movie.cinema.service.MovieTicketService;
 
 @RestController
-@RequestMapping(path = "/v1/movie/info")
-public class MovieInfoController {
+@RequestMapping(path = "/v1/movie/ticket")
+public class MovieTicketController {
+  
   @Autowired
-  private MovieInfoService movieInfoService;
+  private MovieTicketService movieTicketService;
 
 
 
-  @GetMapping("/exist/{id}")
-  public boolean existMovieById(@PathVariable("id") Long movieId){
-    return this.movieInfoService.existMovieById(movieId);
+
+  @GetMapping("/{ticketId}")
+  public MovieTicketDto getMovieById(@PathVariable("ticketId") Long ticketId){
+    return null;
   }
 
 
-  @GetMapping("/{id}")
-  public MovieInfo getMovieById(@PathVariable("id") Long movieId){
-    return this.movieInfoService.getMovieById(movieId);
-  }
-
-  @GetMapping("/all")
-  public List<MovieInfo> getAllMovies(){
-    return this.movieInfoService.getAllMovies();
-  }
 
   @PostMapping
-  public MovieInfo createNewMovie(@RequestBody MovieInfoDto newMovieInfo){
-    return this.movieInfoService.createNewMovie(newMovieInfo);
+  public MovieTicketDto createNewTicket(@PathVariable("movieDateTheaterId") Long movieDateTheaterId){
+    return null;
   }
 
-  @PutMapping
-  public MovieInfo updateMovie(@RequestBody MovieInfoDto movieInfo){
-    return this.movieInfoService.updateMovie(movieInfo);
-  }
-
-  @DeleteMapping("/{id}")
-  public void deleteMovie(@PathVariable("id") Long movieId ){
-   this.movieInfoService.deleteMovie(movieId);
-  }
+ 
 
   }
 
