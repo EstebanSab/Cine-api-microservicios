@@ -16,10 +16,17 @@ public class MovieDateTheaterController {
   @Autowired
   private MovieDateTheaterService movieDateTheaterService;
 
-  @GetMapping
-  public List<MovieDateTheater> getMovieDateLocationById(){
-   return this.movieDateTheaterService.getAllDates();
+  @GetMapping("/{id}")
+  public MovieDateTheater getMovieDateLocationById(@PathVariable("id")Long id){
+   return this.movieDateTheaterService.getMovieDateTheaterById(id);
   }
+
+  @GetMapping("/movie/{movieId}")
+  public List<MovieDateTheater> getDateAndLocationByMovieId(@PathVariable("movieId")Long movieId){
+   return this.movieDateTheaterService.getDateAndLocationByMovieId(movieId);
+  }
+
+
 
   @PostMapping()
   public MovieDateTheater addNewMovieDateTheater(@RequestBody MovieDateTheaterDto newMDTdto){

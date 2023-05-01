@@ -2,6 +2,7 @@ package com.date.movie.cinema.repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,10 @@ public interface MovieDateTheaterRepository extends JpaRepository<MovieDateTheat
     nativeQuery = true)
     MovieDateTheater theaterIsOcupied(Long theaterId,LocalDate movieDate, LocalTime movieTimeStart,LocalTime movieTimeFinish);
 
-
+    @Transactional
+    @Query(value = "Select * from movie_date_theater Where movie_id = ?1",
+    nativeQuery = true)
+    List<MovieDateTheater> getDateAndLocationByMovieId(Long movieId);
 
 
 }

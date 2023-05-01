@@ -25,7 +25,7 @@ public class MovieDateTheaterService {
 
 
   public MovieDateTheater getMovieDateTheaterById(Long id){
-    return  this.movieDateLocationRepository.findById(id).orElseThrow(()-> new RuntimeException("not found ------"));
+    return  this.movieDateLocationRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Does not exist any date movie theater with that id"));
   }
 
   public List<MovieDateTheater> getAllDates(){
@@ -90,6 +90,10 @@ public class MovieDateTheaterService {
    if(this.movieDateLocationRepository.existsById(idMDT)){
     this.movieDateLocationRepository.deleteById(idMDT);
    }
+  }
+
+  public List<MovieDateTheater> getDateAndLocationByMovieId(Long movieId) {
+    return this.movieDateLocationRepository.getDateAndLocationByMovieId(movieId);
   }
 
 
