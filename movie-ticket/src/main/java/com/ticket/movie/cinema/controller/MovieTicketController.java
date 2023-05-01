@@ -24,11 +24,12 @@ public class MovieTicketController {
 
 
 
-  @PostMapping
-  public MovieTicketDto createNewTicket(@PathVariable("movieDateTheaterId") Long movieDateTheaterId){
-    return null;
+  @PostMapping("/{movieDateTheaterId}")
+  public Long  createNewTicket(@PathVariable("movieDateTheaterId") Long movieDateTheaterId){
+    return this.movieTicketService.createNewTicket(movieDateTheaterId);
   }
 
+  
  
 
   }

@@ -28,6 +28,20 @@ public class MovieTicketService {
 
   }
 
+  public Long createNewTicket(Long movieDateTheaterId) {
+    BuyTicketThread buy = new BuyTicketThread();
+
+    MovieTicket movieTicket = new MovieTicket();
+    movieTicket.setMovieDateTheaterId(movieDateTheaterId);
+
+    Thread hiloBuy = new Thread (buy);
+    hiloBuy.start();
+    
+
+    hiloBuy.interrupt();
+    return null;
+  }
+
  
 
 }
