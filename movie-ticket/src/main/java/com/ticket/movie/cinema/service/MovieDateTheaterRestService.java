@@ -19,6 +19,6 @@ public class MovieDateTheaterRestService {
   }
 
   public MovieDateTheaterDto getMovieDateTheaterById(Long movieDateTheaterId) {
-    return null;
+    return new MovieDateTheaterDto((long)1,(long)2,(long)2,"2023-5-2","15-30-00");
   }
 }

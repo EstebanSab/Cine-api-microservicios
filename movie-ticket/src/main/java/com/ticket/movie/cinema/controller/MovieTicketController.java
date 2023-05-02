@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.ticket.movie.cinema.model.MovieTicket;
 import com.ticket.movie.cinema.dto.MovieTicketDto;
+import com.ticket.movie.cinema.dto.TheaterSeatsDto;
 import com.ticket.movie.cinema.service.MovieTicketService;
 
 @RestController
@@ -27,7 +28,7 @@ public class MovieTicketController {
 
 
   @PostMapping("/{movieDateTheaterId}")
-  public Integer  createNewTicket(@PathVariable("movieDateTheaterId") Long movieDateTheaterId){
+  public Map<Integer,TheaterSeatsDto>  createNewTicket(@PathVariable("movieDateTheaterId") Long movieDateTheaterId){
     return this.movieTicketService.createNewTicket(movieDateTheaterId);
   }
 
@@ -50,7 +51,8 @@ public class MovieTicketController {
   public Map<Integer,MovieTicket> getAllListMovieTicket(){
     return this.movieTicketService.getAllBuy();
   }
-  
+
+   
  
 
   }
