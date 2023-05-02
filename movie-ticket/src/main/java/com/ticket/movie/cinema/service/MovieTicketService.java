@@ -27,7 +27,6 @@ public class MovieTicketService {
   private Map<Integer,MovieTicket> buyList= new TreeMap<>();
   private Integer idTransaction = 1;
   private MovieDateTheaterDto movieDateTheaterDto;
-  private TheaterSeatsDto seatsOfTheater;
 
   @Autowired
   private MovieTicketRepository movieTicketRepository;
@@ -42,7 +41,6 @@ public class MovieTicketService {
 
   public Map<Integer,TheaterSeatsDto> createNewTicket(Long movieDateTheaterId) {
     this.setMovieDateTheaterDto(movieDateTheaterId);
-    this.setSeatsOfTheater();
 
     MovieTicket movieTicket = new MovieTicket();
     Map<Integer,TheaterSeatsDto> response = new TreeMap<>();
@@ -55,19 +53,21 @@ public class MovieTicketService {
     
     this.deleteTransactionAfterTime(idTransaction);
     
-    response.put(this.idTransaction,this.getSeatsOfTheater());
+    response.put(this.idTransaction++,this.getSeatsOfTheater());
 
     return response;
   }
 
-  private void setSeatsOfTheater() {
+  private TheaterSeatsDto getSeatsOfTheater() {
     TheaterSeatsDto theaterSeats = new TheaterSeatsDto();
     List<MovieTicket> movieTicketsList =this.movieTicketRepository.findAllByIdOfMovieDateTheater(this.movieDateTheaterDto.getId());
+    
+
     List<String> seatsOcuppied = new ArrayList<String>();
     //Here i shuould call the cinema theater api to get the data
     //
     //
-    theaterSeats.setSeatColumn(20);
+    theaterSeats.setSeatRow(20);
     theaterSeats.setSeatColumn(20);
 
     for (MovieTicket movieTicket : movieTicketsList) {
@@ -75,12 +75,11 @@ public class MovieTicketService {
     }
     
     theaterSeats.setSeatsOcuppied(seatsOcuppied);
+
+    return theaterSeats;
   }
 
 
-  private TheaterSeatsDto getSeatsOfTheater() {
-    return this.seatsOfTheater;
-  }
 
   public Map<Integer,MovieTicket> getAllBuy() {
     return this.buyList;
@@ -109,6 +108,9 @@ public class MovieTicketService {
   timer.start();
   }
 
- 
+  
+  public void saveTickets(MovieTicket movieTicket){
+    this.movieTicketRepository.save(movieTicket);
+  }
 
 }
