@@ -60,9 +60,8 @@ public class MovieTicketService {
 
   private TheaterSeatsDto getSeatsOfTheater() {
     TheaterSeatsDto theaterSeats = new TheaterSeatsDto();
-    List<MovieTicket> movieTicketsList =this.movieTicketRepository.findAllByIdOfMovieDateTheater(this.movieDateTheaterDto.getId());
     
-
+    List<MovieTicket> movieTicketsList =this.movieTicketRepository.findAllByIdOfMovieDateTheater(this.movieDateTheaterDto.getId());
     List<String> seatsOcuppied = new ArrayList<String>();
     //Here i shuould call the cinema theater api to get the data
     //
